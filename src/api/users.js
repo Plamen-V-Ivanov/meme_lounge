@@ -1,8 +1,8 @@
 import { clearUserData, setUserData } from "../util.js";
 import { get, post } from "./api.js";
 
-export function login(email, password) {
-    const result = post('/users/login', {email, password});
+export async function login(email, password) {
+    const result = await post('/users/login', {email, password});
     const userData = {
         id: result._id,
         username: result.username,
@@ -17,10 +17,12 @@ export function login(email, password) {
 }
 
 export function logout(){
+    get('/users/logout');
+    clearUserData()
 }
 
-export function register(username, email, password, gender) {
-    const result = post('/users/register', {username, email, password, gender});
+export async function register(username, email, password, gender) {
+    const result = await post('/users/register', {username, email, password, gender});
     const userData = {
         id: result._id,
         username: result.username,
@@ -30,6 +32,6 @@ export function register(username, email, password, gender) {
     };
 
     setUserData(userData);
-    get('/users/logout');
-    clearUserData()
+    return result;
+
 }

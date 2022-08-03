@@ -1,3 +1,4 @@
+import { notify } from "../notify.js";
 import { clearUserData, getUserData } from "../util.js";
 
 const host = 'http://localhost:3030';
@@ -20,7 +21,7 @@ async function request(url, method, data) {
 
     try {
         const res = await fetch(host + url, options);
-        if (!res.ok) {
+        if (res.ok == false) {
             if (res.status == 403) {
                 clearUserData();
             }
@@ -35,8 +36,8 @@ async function request(url, method, data) {
         }
 
     } catch (err) {
-        err.message;
-        alert(err);
+        notify(err.message);
+        throw err;
 
     }
 }
